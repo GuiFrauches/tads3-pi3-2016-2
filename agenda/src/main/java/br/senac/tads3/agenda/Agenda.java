@@ -69,8 +69,10 @@ public class Agenda extends ConexaoBD {
 
         } catch (SQLException e) {
             System.out.println("Não foi possível executar");
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("Não foi possível executar");
+            e.printStackTrace();
         } finally {
             // 3)Fechar conexao
             if (stmt != null) {
