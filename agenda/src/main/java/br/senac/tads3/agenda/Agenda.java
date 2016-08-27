@@ -72,22 +72,23 @@ public class Agenda extends ConexaoBD {
         } catch (ClassNotFoundException e) {
             System.out.println("Não foi possível executar");
         } finally {
+            // 3)Fechar conexao
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException ex) {
-                    System.out.println("Erro ao fecar stmt.");
+                    System.out.println("Erro ao fechar stmt.");
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
-                    System.out.println("Erro ao fecar conn");
+                    System.out.println("Erro ao fechar conn");
                 }
             }
 
-            // 3)Fechar conexao
+            
         }
     }
 
@@ -101,7 +102,8 @@ public class Agenda extends ConexaoBD {
             System.out.println("(9) Sair");
             System.out.println("Opção: ");
 
-            int opcao = entrada.nextInt();
+            String strOpcao = entrada.nextLine();
+            int opcao = Integer.parseInt(strOpcao);
             switch (opcao) {
                 case 1:
                     break;
