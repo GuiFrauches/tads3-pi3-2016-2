@@ -191,7 +191,7 @@ public class Agenda extends ConexaoBD {
     //deletando contato
     public void deletar() {
 
-        System.out.print("Informe o Indice");
+        System.out.println("Informe o Indice: ");
         int indice = entrada.nextInt();
         
         // 1) Abrir conexao
