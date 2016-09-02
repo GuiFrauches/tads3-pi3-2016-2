@@ -42,6 +42,7 @@ public class Agenda extends ConexaoBD {
         PreparedStatement stmt = null;
         Connection conn = null;
 
+        //inserindo contato
         String sql = "INSERT INTO TB_CONTATO (NM_CONTATO, DT_NASCIMENTO, "
                 + "VL_TELEFONE, VL_EMAIL, DT_CADASTRO)"
                 + "VALUES(?, ?, ?, ?, ?)";
@@ -93,6 +94,146 @@ public class Agenda extends ConexaoBD {
             
         }
     }
+    
+    public void consulta() {
+
+        
+        // 1) Abrir conexao
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        
+        String sql = "SELECT * FROM TB_CONTATO";
+
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+            
+            System.out.println(stmt.executeQuery(sql));
+
+        } catch (SQLException e) {
+            System.out.println("Não foi possível executar");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Não foi possível executar");
+            e.printStackTrace();
+        } finally {
+            
+            // 3)Fechar conexao
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar stmt.");
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar conn");
+                }
+            }
+
+            
+        }
+    }
+    
+     public void alterar() {
+
+        System.out.print("Informe o Indice");
+        int indice = entrada.nextInt();
+        
+        System.out.print("Digite o novo telefone no formato 99 99999-9999: ");
+        String telefone = entrada.nextLine();
+        
+        // 1) Abrir conexao
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        
+        String sql = "UPDATE TB_CONTATO SET VL_TELEFONE VALUES (?) WHERE ID = ?";
+
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(2,indice);
+            stmt.setString(1, telefone);
+            stmt.executeUpdate();
+            System.out.println("Contato Atualizado com Sucesso");
+
+        } catch (SQLException e) {
+            System.out.println("Não foi possível executar");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Não foi possível executar");
+            e.printStackTrace();
+        } finally {
+            
+            // 3)Fechar conexao
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar stmt.");
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar conn");
+                }
+            }
+
+            
+        }
+    }
+    
+    //deletando contato
+    public void deletar() {
+
+        System.out.print("Informe o Indice");
+        int indice = entrada.nextInt();
+        
+        // 1) Abrir conexao
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        
+        String sql = "DELETE FROM TB_CONTATO WHERE ID =?";
+
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1,indice);
+            stmt.executeUpdate();
+            System.out.println("Contato Deletado com Sucesso");
+
+        } catch (SQLException e) {
+            System.out.println("Não foi possível executar");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Não foi possível executar");
+            e.printStackTrace();
+        } finally {
+            
+            // 3)Fechar conexao
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar stmt.");
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar conn");
+                }
+            }
+
+            
+        }
+    }
 
     public static void main(String[] args) {
         Agenda instancia = new Agenda();
@@ -101,6 +242,8 @@ public class Agenda extends ConexaoBD {
             System.out.println("**** DIGITE UMA OPÇÃO****");
             System.out.println("(1) Listar contatos");
             System.out.println("(2) Incluir novo contato");
+            System.out.println("(3) Deletar contato");
+            System.out.println("(4) Atualizar contato");
             System.out.println("(9) Sair");
             System.out.println("Opção: ");
 
@@ -108,9 +251,16 @@ public class Agenda extends ConexaoBD {
             int opcao = Integer.parseInt(strOpcao);
             switch (opcao) {
                 case 1:
+                    instancia.consulta();
                     break;
                 case 2:
                     instancia.incluir();
+                    break;
+                case 3:
+                    instancia.deletar();
+                    break;
+                case 4:
+                    instancia.alterar();
                     break;
                 case 9:
                     System.exit(0);
